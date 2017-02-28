@@ -201,6 +201,8 @@ kube::multinode::start_k8s_master() {
 
   kube::multinode::make_shared_kubelet_dir
 
+  docker pull gcr.io/google_containers/hyperkube-${ARCH}:${K8S_VERSION}
+
   docker run -d \
     --net=host \
     --pid=host \
@@ -228,6 +230,8 @@ kube::multinode::start_k8s_worker() {
 
   kube::multinode::make_shared_kubelet_dir
 
+  docker pull gcr.io/google_containers/hyperkube-${ARCH}:${K8S_VERSION}
+
   # TODO: Use secure port for communication
   docker run -d \
     --net=host \
@@ -252,6 +256,9 @@ kube::multinode::start_k8s_worker() {
 kube::multinode::start_k8s_worker_proxy() {
 
   kube::log::status "Launching kube-proxy..."
+
+  docker pull gcr.io/google_containers/hyperkube-${ARCH}:${K8S_VERSION}
+
   docker run -d \
     --net=host \
     --privileged \
