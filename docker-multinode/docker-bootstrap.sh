@@ -66,7 +66,7 @@ kube::bootstrap::restart_docker(){
   elif kube::helpers::command_exists apt-get; then
     DOCKER_CONF="/etc/default/docker"
     kube::helpers::backup_file ${DOCKER_CONF}
-        
+
     # Is there an uncommented DOCKER_OPTS line at all?
     if [[ -z $(grep "DOCKER_OPTS" $DOCKER_CONF | grep -v "#") ]]; then
       echo "DOCKER_OPTS=\"--mtu=${FLANNEL_MTU} --bip=${FLANNEL_SUBNET} \"" >> ${DOCKER_CONF}
@@ -103,6 +103,7 @@ kube::bootstrap::restart_docker_systemd(){
   systemctl daemon-reload
   systemctl daemon-reload
   systemctl restart docker
+  sleep 15
 }
 
 kube::helpers::replace_mtu_bip(){
